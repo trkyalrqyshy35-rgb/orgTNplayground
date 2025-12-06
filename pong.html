@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<title>Pong</title>
+<style>
+  body{font-family:Tahoma;background:#00c4ff;display:flex;flex-direction:column;align-items:center;padding:20px}
+  canvas{background:#111;border-radius:8px}
+  .hint{color:#fff;margin-top:8px}
+  a{display:inline-block;margin-top:10px;padding:8px 14px;background:#333;color:#fff;text-decoration:none;border-radius:8px}
+</style>
+</head>
+<body>
+  <h1>🏓 Pong</h1>
+  <canvas id="p" width="700" height="400"></canvas>
+  <div class="hint">Player1 (أسفل): ← →    |    Player2 (أعلى): A D</div>
+  <a href="mainpage.html">العودة إلى الصفحة الرئيسية</a>
+
+<script>
+const canvas = document.getElementById('p'), ctx = canvas.getContext('2d');
+let p1 = {x:canvas.width/2-40,y:canvas.height-20,w:80,h:10,dx:0};
+let p2 = {x:canvas.width/2-40,y:10,w:80,h:10,dx:0};
+let ball = {x:canvas.width/2,y:canvas.height/2,vx:4,vy:4,r:8};
+let score1=0, score2=0;
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='white';
+  ctx.fillRect(p1.x,p1.y,p1.w,p1.h);
+  ctx.fillRect(p2.x,p2.y,p2.w,p2.h);
+  ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2); ctx.fill();
+  ctx.fillText(score2 + " - " + score1, canvas.width/2-20, canvas.height/2);
+}
+
+function update(){
+  p1.x += p1.dx; p2.x += p2.dx;
+  p1.x = Math.max(0,Math.min(canvas.width-p1.w,p1.x));
+  p2.x = Math.max(0,Math.min(canvas.width-p2.w,p2.x));
+  ball.x += ball.vx; ball.y += ball.vy;
+
+  // ball collisions with paddles
+  if(ball.y + ball.r >= p1.y && ball.x > p1.x && ball.x < p1.x + p1.w){ ball.vy = -Math.abs(ball.vy); }
+  if(ball.y - ball.r <= p2.y + p2.h && ball.x > p2.x && ball.x < p2.x + p2.w){ ball.vy = Math.abs(ball.vy); }
+
+  // walls left/right
+  if(ball.x - ball.r <=0 || ball.x + ball.r >= canvas.width) ball.vx *= -1;
+
+  // score
+  if(ball.y - ball.r < 0){ score1++; resetBall(); }
+  if(ball.y + ball.r > canvas.height){ score2++; resetBall(); }
+}
+
+function resetBall(){
+  ball.x = canvas.width/2; ball.y = canvas.height/2;
+  ball.vx = 4 * (Math.random()<0.5?-1:1); ball.vy = 4 * (Math.random()<0.5?-1:1);
+}
+
+function loop(){ update(); draw(); requestAnimationFrame(loop); }
+loop();
+
+// controls
+document.addEventListener('keydown', e=>{
+  if(e.key==='ArrowLeft') p1.dx=-6;
+  if(e.key==='ArrowRight') p1.dx=6;
+  if(e.key.toLowerCase()==='a') p2.dx=-6;
+  if(e.key.toLowerCase()==='d') p2.dx=6;
+});
+document.addEventListener('keyup', e=>{
+  if(e.key==='ArrowLeft' || e.key==='ArrowRight') p1.dx=0;
+  if(e.key.toLowerCase()==='a' || e.key.toLowerCase()==='d') p2.dx=0;
+});
+</script>
+</body>
+</html>

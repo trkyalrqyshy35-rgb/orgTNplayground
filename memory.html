@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<title>Memory Match</title>
+<style>
+  body{font-family:Tahoma;background:#00c4ff;padding:30px;text-align:center}
+  .grid{width:360px;margin:12px auto;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .card{background:#fff;height:70px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;user-select:none}
+  .hidden{background:#0088cc;color:transparent}
+  .msg{margin-top:12px;font-weight:700}
+  a{display:inline-block;margin-top:14px;padding:8px 14px;background:#333;color:#fff;text-decoration:none;border-radius:8px}
+</style>
+</head>
+<body>
+  <h1>🧠 Memory Match</h1>
+  <div class="grid" id="grid"></div>
+  <div class="msg" id="msg"></div>
+  <a href="mainpage.html">العودة إلى الصفحة الرئيسية</a>
+
+<script>
+const symbols = ['🍎','🍌','🍇','🍓','🍑','🍍','🍉','🍒'];
+let deck = symbols.concat(symbols).sort(()=>Math.random()-0.5);
+const grid = document.getElementById('grid');
+let first = null, second = null, lock=false, matches=0;
+
+deck.forEach((s,i)=>{
+  const c = document.createElement('div');
+  c.className='card hidden';
+  c.dataset.symbol = s;
+  c.innerText = s;
+  c.onclick = ()=>flip(c);
+  grid.appendChild(c);
+});
+
+function flip(card){
+  if(lock || card===first || card.classList.contains('matched')) return;
+  card.classList.remove('hidden');
+  if(!first) { first = card; return; }
+  second = card;
+  lock = true;
+  if(first.dataset.symbol === second.dataset.symbol){
+    first.classList.add('matched');
+    second.classList.add('matched');
+    matches++;
+    resetTurn();
+    if(matches===symbols.length) document.getElementById('msg').innerText='مبروك! أنهيت اللعبة.';
+  } else {
+    setTimeout(()=> {
+      first.classList.add('hidden');
+      second.classList.add('hidden');
+      resetTurn();
+    }, 800);
+  }
+}
+
+function resetTurn(){ first=null; second=null; lock=false; }
+</script>
+</body>
+</html>

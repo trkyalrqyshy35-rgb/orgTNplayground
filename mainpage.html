@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TN PLAYground</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #bfbfbf;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+    .container {
+      display: grid;
+      grid-template-areas:
+        "header header"
+        "main sidebar"
+        "footer footer";
+      grid-template-columns: 2fr 1fr;
+      gap: 15px;
+      padding: 20px;
+    }
+    .header {
+      grid-area: header;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .main-link {
+      font-size: 1.3em;
+      font-weight: bold;
+      text-decoration: underline;
+      text-decoration-color: #5865f2;
+      text-underline-offset: 4px;
+      color: black;
+    }
+    .title-box {
+      background-color: #00bcd4;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-size: 1.3em;
+      font-weight: bold;
+      text-align: center;
+    }
+    .main-content {
+      grid-area: main;
+      background-color: #00bcd4;
+      border-radius: 10px;
+      padding: 20px;
+      line-height: 1.7;
+      font-size: 1.1em;
+      text-align: center;
+    }
+    .sidebar {
+      grid-area: sidebar;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .side-item {
+      background-color: #00bcd4;
+      border-radius: 8px;
+      height: 25px;
+      margin-bottom: 8px;
+      border-bottom: 3px solid black;
+    }
+    .footer {
+      grid-area: footer;
+      background-color: #00bcd4;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      padding: 10px;
+      transition: 0.2s;
+    }
+    .footer:hover {
+      background-color: #02a4b9;
+    }
+    .footer a {
+      text-decoration: none;
+      color: black;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      .container {
+        grid-template-areas:
+          "header"
+          "main"
+          "sidebar"
+          "footer";
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="main-link">main page</div>
+      <div class="title-box">TN PLAYground</div>
+    </div>
+
+    <div class="main-content">
+      موقع <strong>TN PLAYground</strong> يحتوي<br>
+      على الألعاب الممتعة التي تبحث<br>
+      عنها و لا تضيّع وقتك في قراءة<br>
+      هذه الفقرة وابدأ بالمغامرة!!
+    </div>
+
+    <div class="sidebar">
+      <div class="side-item"><a href="2048.html">2048</a></div>
+      <div class="side-item"><a href="flappy.html">flappy</a></div>
+      <div class="side-item"><a href="memory.html">memory</a></div>
+      <div class="side-item"><a href="pong.html">ping pong</a></div>
+      <div class="side-item"><a href="tictactoe.html">tic tac toe</a></div>
+    </div>
+
+    <div class="footer">
+      <a href="credits.html">Credits</a>
+    </div>
+  </div>
+</body>
+</html>
